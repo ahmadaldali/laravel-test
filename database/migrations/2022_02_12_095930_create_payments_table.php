@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->default(DB::raw('(UUID())'))->unique();
-            $table->string('type', 255);
+            $table->enum('type', ['credit_card', 'cash_on_delivery', 'bank_transfer'])->default('credit_card');
             $table->json('details');
             $table->timestamps();
         });

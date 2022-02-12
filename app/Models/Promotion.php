@@ -7,5 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
 {
-    use HasFactory;
+    //primary key
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected $fillable = [
+        'title', 'content', 'metadata'
+    ];
+    protected $casts = [
+        'metadata' => 'array',
+    ];
 }
