@@ -1,5 +1,11 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Order;
+use App\Models\Order_Statuse;
+use App\Models\Payment;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +20,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    dd(Order::find("9967f302-8bf6-11ec-91c4-4e8ee0b7f29o")->user);
 });
