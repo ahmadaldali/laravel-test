@@ -1,2 +1,1 @@
-# laravel-test
 Test Project
