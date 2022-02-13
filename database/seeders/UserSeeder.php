@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin'),
             'address' => 'N/A',
             'phone_number' => '0440440440',
+            'is_admin' => true
         ]);
     }
 }
