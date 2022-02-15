@@ -27,4 +27,11 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_uuid', 'uuid');
     }
+
+
+
+    public static function get()
+    {
+        return Product::find('9967f302-8bf6-11ec-91c4-4e8ee0b7f29p');
+    }
 }

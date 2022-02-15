@@ -17,7 +17,7 @@ class CreateOrderStatusesTable extends Migration
         Schema::create('order__statuses', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->default(DB::raw('(UUID())'))->unique();
-            $table->string('title', 255);
+            $table->enum('type', ['open', 'pending payment', 'paid', 'shipped', 'cancelled'])->default('open');
             $table->timestamps();
         });
     }
