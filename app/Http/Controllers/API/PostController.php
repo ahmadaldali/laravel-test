@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Traits\ListsResult;
+
 
 class PostController extends Controller
 {
+    use ListsResult;
 
     /**
      * @todo: get a specific post using its uuid
@@ -30,4 +32,18 @@ class PostController extends Controller
         } //catch
     } //function
 
-}
+
+    /**
+     * @todo: get all posts
+     *
+     * @param ListRequest $request
+     */
+    public function getAll(ListRequest $request)
+    {
+        //first get all posts
+        $model = Post::all()->toQuery();
+        //fetch the results
+        return $this->getTheResult($model, $request);
+    } //getAll
+
+}//class

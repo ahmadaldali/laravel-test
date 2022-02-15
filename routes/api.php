@@ -3,7 +3,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AdminController;
+use App\Http\Controllers\API\FileController;
 use App\Http\Controllers\API\HelperAPIController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController;
 
@@ -35,7 +37,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             //middleware auth
             Route::group(['middleware' => ['auth:api']], function () {
                 Route::get('logout', [HelperAPIController::class, 'logout'])->name('logout');
-                Route::get('user-listing', [AdminController::class, 'getAllUsers'])->name('user-listing');
+                Route::get('user-listing', [AdminController::class, 'getAllNonAdmin'])->name('user-listing');
             }); //auth
         }); //prefix admin
 
@@ -57,12 +59,36 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
         //main
         Route::prefix('main')->name('main.')->group(function () {
-            //middleware auth
-            Route::group(['middleware' => ['auth:api']], function () {
-                Route::get('/blog/{uuid}', [PostController::class, 'getPost'])->name('get-post');
-            }); //auth
+            Route::get('/blog', [PostController::class, 'getAll'])->name('all');
+            Route::get('/blog/{uuid}', [PostController::class, 'getPost'])->name('get-post');
         }); //prefix main
 
+
+        //file
+        Route::prefix('file')->name('file.')->group(function () {
+            //middleware auth
+            Route::group(['middleware' => ['auth:api']], function () {
+                Route::post('/upload', [FileController::class, 'upload'])->name('upload');
+            }); //auth
+            Route::get('/{uuid}', [FileController::class, 'getFile'])->name('get-file');
+        }); //prefix file
+
+        //order
+        Route::prefix('order')->name('order.')->group(function () {
+            //middleware auth
+            //Route::group(['middleware' => ['auth:api']], function () {
+            Route::post('/create', [OrderController::class, 'create'])->name('create');
+            Route::get('/{uuid}/download', [OrderController::class, 'downloadInvoice'])->name('download');
+            // }); //auth
+        }); //prefix order
+
+        //orders
+        Route::prefix('orders')->name('orders.')->group(function () {
+            //middleware auth
+            //Route::group(['middleware' => ['auth:api']], function () {
+            Route::get('/', [OrderController::class, 'getAll'])->name('all');
+            // }); //auth
+        }); //prefix order
 
         //------------------------------------------------------
     }); //prefix v1

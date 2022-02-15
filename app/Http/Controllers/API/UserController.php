@@ -43,6 +43,9 @@ class UserController extends Controller
      */
     public function create(UserRequest $request)
     {
+        Log::info($request->all());
+
+
         // get validated form data
         $validatedData = $request->validated();
         //make the pass hashed
@@ -67,7 +70,7 @@ class UserController extends Controller
             return response($user, 200);
         } catch (\Exception $e) {
             Log::info('get current user: ' . $e->getMessage());
-            return response($user, 500);
+            return response([], 500);
         } //catch
     } //user
 

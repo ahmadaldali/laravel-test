@@ -20,8 +20,10 @@ class OrderSeeder extends Seeder
             'payment_uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7f2pa',
             'order_statuse_uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7f2os',
             'products' => [
-                "product" => "9967f302-8bf6-11ec-91c4-4e8ee0b7f29p",
-                "quantity" => 14,
+                [
+                    "product" => "9967f302-8bf6-11ec-91c4-4e8ee0b7f29p",
+                    "quantity" => 14,
+                ]
             ],
             'address' => [
                 "billing" => "Address1",

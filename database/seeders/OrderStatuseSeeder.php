@@ -16,7 +16,6 @@ class OrderStatuseSeeder extends Seeder
     {
         Order_Statuse::create([
             'uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7f2os',
-            'title' => 'Order statuse1',
         ]);
     }
 }
