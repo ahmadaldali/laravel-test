@@ -22,6 +22,9 @@ class HelperAPIController extends Controller
         try {
             //check if the user is logged in already and then revoke the token
             $user = Auth::guard('api')->user();
+            //this condition because, in the description logout route is outside the auth
+            //In my opinion,Is better to put logout within auth middleware
+            if ($user == null) return response([], 401);
             $token = $user->token();
             $token->revoke();
             $response = ['message' => 'You have been successfully logged out!'];

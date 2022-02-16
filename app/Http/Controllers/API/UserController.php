@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Models\User;
+use App\Traits\ListsResult;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +18,8 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+
+    use ListsResult;
 
     /**
      * @todo: login using the email and the pass
@@ -43,9 +47,6 @@ class UserController extends Controller
      */
     public function create(UserRequest $request)
     {
-        Log::info($request->all());
-
-
         // get validated form data
         $validatedData = $request->validated();
         //make the pass hashed
@@ -173,5 +174,24 @@ class UserController extends Controller
         //return response
         return response(['message' => 'Password reset successfully'], 200);
     } //reset-pass
+
+
+    /**
+     *
+     * @return void
+     */
+    public function orders(ListRequest $request)
+    {
+        try {
+            //get the user's orders through the model's relationship
+            $user = User::getLoggedUser();
+            $orders = $user->orders->toQuery();
+            //fetch the results
+            return $this->getTheResult($orders, $request);
+        } catch (\Exception $e) {
+            Log::info('get user orders: ' . $e->getMessage());
+            return response([], 500);
+        } //catch
+    } //orders
 
 }//class

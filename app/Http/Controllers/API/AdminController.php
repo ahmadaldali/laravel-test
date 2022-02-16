@@ -61,6 +61,28 @@ class AdminController extends Controller
             : response([], 500);
     } //create
 
+
+    /**
+     * @todo: admin delete a user
+     */
+    public function deleteUser($uuid)
+    {
+        try {
+            //get that user
+            $user = User::find($uuid);
+            //admin can remove only the users
+            if (!$user || $user->is_admin) return response([], 422);
+            //in my opinion, I think we shouldn't delete a user if he is logged in
+            //so we should add something to the DB to explain that,
+            //e.g: status column, or last log out at, from that we can check
+            $user->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } catch (Exception $e) {
+            Log::info('error in delete user: ' . $e->getMessage());
+            return response([], 500);
+        } //catch
+    } //delete user
+
     /**
      * @todo: get all users
      *

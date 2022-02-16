@@ -132,10 +132,19 @@ hr {
     font-size: 60%!important;
 }
 
+.text-100 {
+    font-size: 100%!important;
+}
+
 .text-grey-m1 {
     color: #7b7d81!important;
 }
 
 .align-bottom {
     vertical-align: bottom!important;
+}
+
+.inv-info {
+    display: flex;
+    justify-content: center;
 }
