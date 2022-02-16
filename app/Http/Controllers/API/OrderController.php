@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ListRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
+use App\Models\Order_Statuse;
 use App\Models\User;
 use App\Traits\ListsResult;
 use App\Traits\OrderProductData;
@@ -71,14 +72,57 @@ class OrderController extends Controller
      */
     public function getAll(ListRequest $request)
     {
-        //first get all order
+        //first get all orders
         $model = Order::all()->toQuery();
         //fetch the results
         return $this->getTheResult($model, $request);
     } //getAll
 
 
+    /**
+     * @todo: get all shipped orders
+     *
+     * @param ListRequest $request
+     */
+    public function getAllShipment(ListRequest $request)
+    {
+        //first get all shipped orders
+        $model = Order_Statuse::where('type', 'shipped')
+            ->first()->orders->toQuery();
+        //apply filters
+        return $this->getTheResult($model, $request);
+    } //getAll
+
+
+    /**
+     * @todo: download the order invoice as pdf file
+     */
     public function downloadInvoice($uuid)
     {
-    }
+        try {
+            //get the needed information
+            $order = Order::find($uuid);
+            $customer_name = $order->payment->details['holder_name'];
+            $payment_type = $order->payment->type;
+            $order_type = $order->order_statuse->type;
+            $details = $this->getDetails($order->products);
+            //format the data array
+            $data = [
+                'order' => $order,
+                'customer_name' => $customer_name,
+                'payment_type' => $payment_type,
+                'details' => $details,
+                'order_type' => $order_type,
+            ];
+            //count = 0 mean, there is a fake product
+            if (count($details) == 0) return response([], 422);
+            $pdf = PDF::loadView('Order.invoice', ['data' => $data]);
+            //name of the pdf is uuid
+            return $pdf->download($uuid . '.pdf');
+        } catch (Exception $e) {
+            Log::info('error in download invoice' . $e->getMessage());
+            return response([], 500);
+        } //catch
+    } //download pdf
+
 }//class

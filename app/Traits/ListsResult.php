@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 
 trait ListsResult
 {
+    use SaveJson;
+
     /**
      * Undocumented function
      *
@@ -21,18 +23,24 @@ trait ListsResult
         $validatedData = $request->validated();
         //here we need to get all parameters not only validated,
         //but of course if we reach here, then the basic params is validated correctly
-        $params = $request->all();
+        //remove dataRange to format it accroding the suitable
+        $params = $request->except(['dataRange']);
+        //check from data range if exist
+        if ($request->has('dataRange')) {
+            //add from and to to the params (attributes)
+            $dataRange = $this->convertJsonToObject($request->dataRange);
+            $params['from'] = $dataRange->from;
+            $params['to'] = $dataRange->to;
+        }
         //add extra params to the request, like is_admin for user-list
         foreach ($addedParams as $key => $value) {
             $params[$key] = $value;
         }
-        Log::info($params);
         //apply the filter on them
         $records = (new FilterBuilder($model, $params))
             ->where()
             ->sort()
             ->paginate();
-        Log::info($records);
 
         //check from the result
         if ($records == null) return response([], 422); //or 500

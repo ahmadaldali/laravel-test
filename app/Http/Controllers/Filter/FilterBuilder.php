@@ -25,6 +25,9 @@ class FilterBuilder implements FilterInterface
         $this->list = $list;
     }
 
+    /**
+     *
+     */
     public function where(): FilterInterface
     {
         //all received parameters
@@ -37,11 +40,24 @@ class FilterBuilder implements FilterInterface
         //get the keys of the remaining params
         $keys = array_keys($conditions);
         foreach ($keys as $key) {
-            $this->model->where($key, $conditions[$key]);
+            //of course here, the better to build chain design pattern instead of condition
+            //cuz, maybe in the future we need to process additional params like dateRange
+            ($key == 'from') ?
+                $this->model->where('created_at', '>', $conditions[$key])
+                : (
+                    ($key == 'to') ?
+                    $this->model->where('created_at', '<', $conditions[$key]) :
+                    $this->model->where($key, $conditions[$key])
+                );
         }
         return $this;
     }
 
+    /**
+     *
+     *
+     * @return FilterInterface
+     */
     public function sort(): FilterInterface
     {
         $sortType = (array_key_exists('desc', $this->list) && $this->list['desc'] == 1) ? 'desc' : 'asc';
@@ -51,6 +67,9 @@ class FilterBuilder implements FilterInterface
         return $this;
     }
 
+    /**
+     *
+     */
     public function paginate()
     {
         try {

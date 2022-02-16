@@ -28,6 +28,8 @@ class ListRequest extends FormRequest
             'limit' => 'int',
             'sortBy' => 'string',
             'desc' => 'boolean',
+            'dataRange' => 'json'
         ];
-    }
+    } //
+
 }

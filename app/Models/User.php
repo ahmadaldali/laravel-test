@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -57,11 +58,7 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_uuid', 'uuid');
     }
 
-
     //my helper functions section
-
-
-
     /**
      * @return User|null
      */
@@ -80,6 +77,7 @@ class User extends Authenticatable
      */
     public static function login($data, $is_admin = true)
     {
+        DB::beginTransaction();
         try {
             //get the user using the email only
             $user = User::where('email', $data['email'])
@@ -92,11 +90,18 @@ class User extends Authenticatable
             if ($user && Hash::check($data['password'], $user->password)) {
                 //if we reach here, that email exists, and  //the same password, so create a token based on uuid and return it
                 $token = $user->createToken($user->uuid)->accessToken;
+
+                //set the last login time
+                $user->last_login_at = Carbon::now();
+                $user->save();
+                Log::info($user);
+                DB::commit();
                 return [$token, 200];
             }
             //invalid credentials
             return ["Invalid Credentials", 422];
         } catch (\Exception $e) {
+            DB::rollback();
             Log::info('error in login/User Model: ' . $e->getMessage());
             //something error happened
             return ["", 500];
@@ -170,11 +175,4 @@ class User extends Authenticatable
         } //catch
     } //register
 
-
-    public static function getAllUser($adminFilter = false)
-    {
-        $users = User::all();
-        $users = $users->where('is_admin', $adminFilter);
-        return $users;
-    }
 }//class
