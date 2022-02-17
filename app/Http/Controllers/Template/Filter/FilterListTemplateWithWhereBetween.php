@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Template\Filter;
 
 use App\Traits\fixRange;
 use App\Traits\SaveJson;
-use Illuminate\Support\Facades\Log;
 
 /**
  *
  */
 class FilterListTemplateWithWhereBetween extends FilterListTemplateAbstract
 {
-    use fixRange, SaveJson;
+    use fixRange;
+    use SaveJson;
 
     /**
      * @todo: where between condition

@@ -18,7 +18,9 @@ use PDF;
 
 class OrderController extends Controller
 {
-    use SaveJson, OrderProductData, ListsResult;
+    use SaveJson;
+    use OrderProductData;
+    use ListsResult;
 
     /**
      * @todo: try to create an order record

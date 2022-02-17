@@ -27,13 +27,10 @@ Route::get('/401', function () {
 })->name('api.401');
 
 
-Route::group(['middleware' => ['cors', 'json.response', 'api']], function () {
+Route::group(['middleware' => ['cors', 'json.response', 'api', 'throttle:60,1']], function () {
     Route::prefix('v1')->group(function () {
         //admin can delete a user
-        Route::delete(
-            'user-delete/{uuid}',
-            [AdminController::class, 'deleteUser']
-        )->name('user-delete')->middleware(['auth:api', 'admin']);
+        Route::delete('user-delete/{uuid}', [AdminController::class, 'deleteUser'])->name('user-delete')->middleware(['auth:api', 'admin']);
         //admin
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('create', [AdminController::class, 'create'])->name('create');

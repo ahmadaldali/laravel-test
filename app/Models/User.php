@@ -26,7 +26,6 @@ class User extends Authenticatable
         'first_name', 'last_name', 'address', 'phone_number'
     ];
 
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -105,7 +104,6 @@ class User extends Authenticatable
             //something error happened
             return ["", 500];
         } //catch
-
     } //login
 
 

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-
     use ListsResult;
 
     /**
