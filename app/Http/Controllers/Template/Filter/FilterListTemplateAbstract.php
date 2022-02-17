@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Template\Filter;
 
 use App\Http\Controllers\Filter\FilterBuilder;
 
-
 /**
  * filtering process
  */
@@ -38,6 +37,7 @@ abstract class FilterListTemplateAbstract
     {
         $this->builder = new FilterBuilder($model, $params);
     }
+
     /**
      * where
      *
@@ -48,6 +48,7 @@ abstract class FilterListTemplateAbstract
         //apply conditions if possible
         $this->builder = $this->builder->where();
     }
+
     /**
      * sort
      *
@@ -58,6 +59,7 @@ abstract class FilterListTemplateAbstract
         //sort the results
         $this->builder = $this->builder->sort();
     }
+
     /**
      * paginate
      *

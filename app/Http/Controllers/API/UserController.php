@@ -18,7 +18,6 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-
     use ListsResult;
 
     /**

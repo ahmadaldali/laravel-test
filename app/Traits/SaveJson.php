@@ -4,7 +4,6 @@ namespace App\Traits;
 
 trait SaveJson
 {
-
     /**
      * @todo: to handle all process json attributes
      *

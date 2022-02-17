@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Request;
 
 class HelperAPIController extends Controller
 {
-
     /**
      * @todo: logout the current user
      *
