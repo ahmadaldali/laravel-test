@@ -17,7 +17,7 @@
                 <h1 class="page-title text-secondary-d1">
                     Invoice:
                     <small class="page-info">
-                        <i class="fa fa-angle-double-right text-80"></i>
+                        <i class="fa fa-angle-double-right text-40"></i>
                        {{ $data['order']->uuid }}
                     </small>
                 </h1>

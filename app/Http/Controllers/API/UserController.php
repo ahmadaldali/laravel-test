@@ -123,6 +123,13 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|email|exists:users',
         ]);
+        //check if that user  isn't admin
+        $user = User::where('email', $request->email)->first();
+        if ($user->is_admin) {
+            //admin, return with non valid response
+            return response([], 422);
+        } //if - user is admin
+
         //check if that email has a token before or not
         //cuz the DB will truncated every day so, the user can request only one token in one day
         $record = DB::table('password_resets')
@@ -130,7 +137,7 @@ class UserController extends Controller
                 'email' => $request->email,
             ])->first();
         if ($record) {
-            return response(['message' => 'You have requested a token before, Please wait until tomorrow'], 200);
+            return response(['success' => false, 'token' => 'You have requested a token before, Please wait until tomorrow'], 200);
         }
         //generate a random token
         $token = Str::random(64);
@@ -140,7 +147,7 @@ class UserController extends Controller
             'token' => $token,
             'created_at' => Carbon::now()
         ]);
-        return response(['token' => $token], 200);
+        return response(['success' => true, 'token' => $token], 200);
     } //forget-password
 
     /**

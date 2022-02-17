@@ -35,4 +35,4 @@ class HelperAPIController extends Controller
         } //catch
     } //logout
 
-}
+}//class

@@ -6,12 +6,11 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 /**
- * The Builder interface specifies methods for creating the different parts of
- * the Product objects.
+ * The Builder interface specifies methods for return the different types of
+ * the Lists.
  */
 class FilterBuilder implements FilterInterface
 {
-
     private $model;
     private $list;
 
@@ -32,7 +31,7 @@ class FilterBuilder implements FilterInterface
     {
         //all received parameters
         $conditions = $this->list;
-        //remove page, limit,sortBy, desc
+        //remove page, limit,sortBy, desc if they exist
         $removedKeys = ['page', 'limit', 'desc', 'sortBy'];
         foreach ($removedKeys as $key) {
             unset($conditions[$key]);
@@ -40,16 +39,17 @@ class FilterBuilder implements FilterInterface
         //get the keys of the remaining params
         $keys = array_keys($conditions);
         foreach ($keys as $key) {
-            //of course here, the better to build chain design pattern instead of condition
-            //cuz, maybe in the future we need to process additional params like dateRange
-            ($key == 'from') ?
-                $this->model->where('created_at', '>', $conditions[$key])
-                : (
-                    ($key == 'to') ?
-                    $this->model->where('created_at', '<', $conditions[$key]) :
-                    $this->model->where($key, $conditions[$key])
-                );
+            $this->model->where($key, $conditions[$key]);
         }
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function whereBetween($begin, $end, $column = 'created_at'): FilterInterface
+    {
+        $this->model->whereBetween($column, [$begin, $end]);
         return $this;
     }
 
@@ -83,4 +83,5 @@ class FilterBuilder implements FilterInterface
             return null;
         } //catch
     } //paginate
-}
+
+}//interface

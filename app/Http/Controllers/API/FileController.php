@@ -14,6 +14,12 @@ class FileController extends Controller
 {
     use FileUpload; //to call the upload function
 
+    /**
+     * @todo: upload a file
+     *
+     * @param FileRequest $request
+     * @return void
+     */
     public function upload(FileRequest $request)
     {
         try {
@@ -32,7 +38,6 @@ class FileController extends Controller
             Log::info('error in upload/file controller: ' . $e->getMessage());
             return response([], 500);
         } //catch
-
     } //function
 
 
@@ -53,8 +58,6 @@ class FileController extends Controller
             Log::info('error in file/ file controller');
             return response([], 500);
         } //catch
-
     } //file
-
 
 }
