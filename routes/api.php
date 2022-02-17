@@ -55,8 +55,12 @@ Route::group(['middleware' => ['cors', 'json.response', 'api']], function () {
             Route::group(['middleware' => ['auth:api', 'user']], function () {
                 Route::get('/', [UserController::class, 'user'])->name('user');
                 Route::delete('/', [UserController::class, 'delete'])->name('delete');
-                Route::get('/orders', [UserController::class, 'orders'])->name('orders');
                 Route::put('edit', [UserController::class, 'edit'])->name('edit');
+            }); //auth - user
+            //middleware auth
+            Route::group(['middleware' => ['auth:api']], function () {
+                //user and admin can get theirs orders
+                Route::get('/orders', [UserController::class, 'orders'])->name('orders');
             }); //auth
         }); //prefix user
         //main
@@ -64,6 +68,23 @@ Route::group(['middleware' => ['cors', 'json.response', 'api']], function () {
             Route::get('/blog', [PostController::class, 'getAll'])->name('all');
             Route::get('/blog/{uuid}', [PostController::class, 'getPost'])->name('get-post');
         }); //prefix main
+        //order
+        Route::prefix('order')->name('order.')->group(function () {
+            //middleware auth
+            //  Route::group(['middleware' => ['auth:api']], function () {
+            Route::post('/create', [OrderController::class, 'create'])->name('create');
+            Route::get('/{uuid}/download', [OrderController::class, 'downloadInvoice'])->name('download');
+            // }); //auth
+        }); //prefix order
+        //orders
+        Route::prefix('orders')->name('orders.')->group(function () {
+            //middleware auth
+            Route::group(['middleware' => ['auth:api', 'admin']], function () {
+                Route::get('/', [OrderController::class, 'getAll'])->name('all');
+                Route::get('/shipment-locater', [OrderController::class, 'getAllShipment'])->name('all-shipment');
+                Route::get('/dashboard', [OrderController::class, 'getAll'])->name('dashboard');
+            }); //auth
+        }); //prefix orders
         //file
         Route::prefix('file')->name('file.')->group(function () {
             //middleware auth
@@ -72,25 +93,6 @@ Route::group(['middleware' => ['cors', 'json.response', 'api']], function () {
             }); //auth
             Route::get('/{uuid}', [FileController::class, 'getFile'])->name('get-file');
         }); //prefix file
-
-        //order
-        Route::prefix('order')->name('order.')->group(function () {
-            //middleware auth
-             Route::group(['middleware' => ['auth:api']], function () {
-            Route::post('/create', [OrderController::class, 'create'])->name('create');
-            Route::get('/{uuid}/download', [OrderController::class, 'downloadInvoice'])->name('download');
-              }); //auth
-        }); //prefix order
-
-        //orders
-        Route::prefix('orders')->name('orders.')->group(function () {
-            //middleware auth
-            Route::group(['middleware' => ['auth:api', 'admin']], function () {
-                Route::get('/', [OrderController::class, 'getAll'])->name('all');
-                Route::get('/shipment-locater', [OrderController::class, 'getAllShipment'])->name('all');
-            }); //auth
-        }); //prefix order
-
         //------------------------------------------------------
     }); //prefix v1
 

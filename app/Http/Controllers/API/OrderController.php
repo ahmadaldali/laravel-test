@@ -74,6 +74,7 @@ class OrderController extends Controller
     {
         //first get all orders
         $model = Order::all()->toQuery();
+        //Or $model = Order::query();
         //fetch the results
         return $this->getTheResult($model, $request);
     } //getAll
@@ -91,8 +92,7 @@ class OrderController extends Controller
             ->first()->orders->toQuery();
         //apply filters
         return $this->getTheResult($model, $request);
-    } //getAll
-
+    } //getAllShipment
 
     /**
      * @todo: download the order invoice as pdf file
@@ -102,14 +102,14 @@ class OrderController extends Controller
         try {
             //get the needed information
             $order = Order::find($uuid);
-            $customer_name = $order->payment->details['holder_name'];
             $payment_type = $order->payment->type;
             $order_type = $order->order_statuse->type;
             $details = $this->getDetails($order->products);
+            $customer = $order->user;
             //format the data array
             $data = [
                 'order' => $order,
-                'customer_name' => $customer_name,
+                'customer' => $customer,
                 'payment_type' => $payment_type,
                 'details' => $details,
                 'order_type' => $order_type,
