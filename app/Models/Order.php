@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Order extends Model
 {
+    use HasFactory;
+
     //primary key
     protected $primaryKey = 'uuid';
     public $incrementing = false;

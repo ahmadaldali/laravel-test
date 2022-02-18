@@ -14,10 +14,6 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::create([
-            'uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7f29c',
-            'title' => 'Category1',
-            'slug' => 'Slug Cat1',
-        ]);
+        Category::factory()->count(20)->create();
     }
 }

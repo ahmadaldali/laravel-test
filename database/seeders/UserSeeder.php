@@ -22,8 +22,11 @@ class UserSeeder extends Seeder
             'email' => 'admin@buckhill.co.uk',
             'password' => Hash::make('admin'),
             'address' => 'N/A',
-            'phone_number' => '0440440440',
+            'phone_number' => '1-888-888-8888',
             'is_admin' => true
         ]);
+
+        //20 random user
+        User::factory()->count(20)->create();
     }
 }

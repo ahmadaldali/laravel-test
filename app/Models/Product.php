@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
+
     //primary key
     protected $primaryKey = 'uuid';
     public $incrementing = false;

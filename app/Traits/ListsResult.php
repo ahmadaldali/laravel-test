@@ -39,7 +39,7 @@ trait ListsResult
 
         //check from the result
         if ($records == null) return response([], 422); //or 500
-        return response($records, 200);
+        return response(['data' => $records], 200);
     } //method
 
 }//trait

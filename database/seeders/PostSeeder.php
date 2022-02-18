@@ -21,7 +21,7 @@ class PostSeeder extends Seeder
             'content' => 'Random Content',
             'metadata' => [
                 "author" => "Author1",
-                "image" => "9967f302-8bf6-11ec-91c4-4e8ee0b7f29f"
+                "image" => ""
             ]
         ]);
     }

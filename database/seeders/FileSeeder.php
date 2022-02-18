@@ -14,12 +14,6 @@ class FileSeeder extends Seeder
      */
     public function run()
     {
-        File::create([
-            'uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7file',
-            'name' => 'testFile.jpg',
-            'path' => 'storage/app/public/pet-shop/AAXGAaUDeF.jpg',
-            'size' => '1985727',
-            'type' => 'jpg',
-        ]);
+        //no initial files
     }
 }

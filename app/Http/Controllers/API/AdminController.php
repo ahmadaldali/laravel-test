@@ -64,7 +64,7 @@ class AdminController extends Controller
             //get that user
             $user = User::find($uuid);
             //admin can remove only the users
-            if (!$user || $user->is_admin) return response([], 422);
+            if (!$user || $user->is_admin) return response([], 404);
             //in my opinion, I think we shouldn't delete a user if he is logged in
             //so we should add something to the DB to explain that,
             //e.g: status column, or last log out at, from that we can check
