@@ -19,9 +19,9 @@ class PromotionSeeder extends Seeder
             'title' => 'Promotion1',
             'content' => 'Promotion random content',
             'metadata' =>  [
-                "valid_from" => "20/12/2020",
-                'valid_to' => "20/12/2022",
-                "image" => "9967f302-8bf6-11ec-91c4-4e8ee0b7f29f"
+                "valid_from" => "20-12-2020",
+                'valid_to' => "20-12-2023",
+                "image" => ""
             ],
         ]);
     }

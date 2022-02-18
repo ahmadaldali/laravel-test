@@ -14,10 +14,6 @@ class BrandSeeder extends Seeder
      */
     public function run()
     {
-        Brand::create([
-            'uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7f29b',
-            'title' => 'Brand1',
-            'slug' => 'Slug Brand1',
-        ]);
+        Brand::factory()->count(20)->create();
     }
 }

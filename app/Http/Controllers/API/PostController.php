@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ListRequest;
 use App\Models\Post;
 use App\Traits\ListsResult;
-
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -26,8 +26,9 @@ class PostController extends Controller
             if ($post == null) {
                 return response(['message' => 'Not Found'], 404);
             }
-            return response(['message' => $post], 404);
+            return response(['message' => $post], 200);
         } catch (\Exception $e) {
+            Log::info('error in get post: ' . $e->getMessage());
             return response([], 500);
         } //catch
     } //function

@@ -38,7 +38,15 @@ class RefreshDB extends Command
      */
     public function handle()
     {
+        print('Start Migration' . "\n");
         Artisan::call('migrate:fresh');
+        print('End Migration' . "\n");
+        print('Start Seeding' . "\n");
         Artisan::call('db:seed');
+        print('End Seeding' . "\n");
+        print('Start removing the files' . "\n");
+        Artisan::call('remove:files');
+        print('End removing' . "\n");
+        Artisan::call('passport:install');
     }
 }
