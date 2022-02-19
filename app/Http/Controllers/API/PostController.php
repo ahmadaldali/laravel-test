@@ -42,7 +42,7 @@ class PostController extends Controller
     public function getAll(ListRequest $request)
     {
         //first get all posts
-        $model = Post::all()->toQuery();
+        $model = Post::all();
         //fetch the results
         return $this->getTheResult($model, $request);
     } //getAll

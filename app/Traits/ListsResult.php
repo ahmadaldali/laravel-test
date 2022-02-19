@@ -16,6 +16,12 @@ trait ListsResult
      */
     public function getTheResult($model, $request, $addedParams = [])
     {
+        //check if there is no list
+        if (count($model) == 0) {
+            return response(['data' => []], 200);
+        }
+        //process the list
+        $model = $model->toQuery();
         //validate page,limit,sort,desc
         $validatedData = $request->validated();
         //here we need to get all parameters not only validated,
@@ -26,7 +32,6 @@ trait ListsResult
         foreach ($addedParams as $key => $value) {
             $params[$key] = $value;
         }
-
         //choose the suitable template
         //it's better to use chain design pattern, for the future
         if ($request->has('dataRange') || $request->has('fixRange')) {
@@ -36,10 +41,9 @@ trait ListsResult
         }
         //filter and fetch the final result
         $records = $template->filter($model, $params, $request);
-
         //check from the result
         if ($records == null) return response([], 422); //or 500
-        return response(['data' => $records], 200);
+        return response($records, 200);
     } //method
 
 }//trait

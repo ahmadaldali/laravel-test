@@ -191,7 +191,7 @@ class UserController extends Controller
         try {
             //get the user's orders through the model's relationship
             $user = User::getLoggedUser();
-            $orders = $user->orders->toQuery();
+            $orders = $user->orders;
             //fetch the results
             return $this->getTheResult($orders, $request);
         } catch (\Exception $e) {

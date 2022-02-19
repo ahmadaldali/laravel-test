@@ -23,7 +23,7 @@ class ProductFactory extends Factory
             'uuid' => Str::uuid()->toString(),
             'category_uuid' =>  Category::factory()->create()->uuid,
             'title' => $this->faker->text(25),
-            'price' => $this->faker->randomNumber(5),
+            'price' => $this->faker->randomNumber(2),
             'description' => $this->faker->text(),
             'metadata' =>  [
                 "brand" => function () {

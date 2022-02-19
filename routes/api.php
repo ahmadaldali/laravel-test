@@ -20,14 +20,12 @@ use App\Http\Controllers\API\UserController;
 |
 */
 
-
 //used this route in auth middleware to redirect it when no user is authenticated
 Route::get('/401', function () {
     return response([], 401);
 })->name('api.401');
 
-
-Route::group(['middleware' => ['cors', 'json.response', 'api', 'throttle:60,1']], function () {
+Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], function () {
     Route::prefix('v1')->group(function () {
         //admin can delete a user
         Route::delete('user-delete/{uuid}', [AdminController::class, 'deleteUser'])->name('user-delete')->middleware(['auth:api', 'admin']);
@@ -68,10 +66,10 @@ Route::group(['middleware' => ['cors', 'json.response', 'api', 'throttle:60,1']]
         //order
         Route::prefix('order')->name('order.')->group(function () {
             //middleware auth
-            //  Route::group(['middleware' => ['auth:api']], function () {
-            Route::post('/create', [OrderController::class, 'create'])->name('create');
-            Route::get('/{uuid}/download', [OrderController::class, 'downloadInvoice'])->name('download');
-            // }); //auth
+            Route::group(['middleware' => ['auth:api']], function () {
+                Route::post('/create', [OrderController::class, 'create'])->name('create');
+                Route::get('/{uuid}/download', [OrderController::class, 'downloadInvoice'])->name('download');
+            }); //auth
         }); //prefix order
         //orders
         Route::prefix('orders')->name('orders.')->group(function () {
@@ -92,5 +90,4 @@ Route::group(['middleware' => ['cors', 'json.response', 'api', 'throttle:60,1']]
         }); //prefix file
         //------------------------------------------------------
     }); //prefix v1
-
 });
