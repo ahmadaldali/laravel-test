@@ -25,7 +25,6 @@ class UserSeeder extends Seeder
             'phone_number' => '1-888-888-8888',
             'is_admin' => true
         ]);
-
         //20 random user
         User::factory()->count(20)->create();
     }

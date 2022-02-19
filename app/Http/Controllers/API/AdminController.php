@@ -84,9 +84,7 @@ class AdminController extends Controller
     public function getAllNonAdmin(ListRequest $request)
     {
         //first get all users
-        $model = User::query();
-        //$model = User::all()->toQuery();
-
+        $model = User::all();
         //to fetch non admins only
         $addedParams = ['is_admin' => 0];
         //fetch the results

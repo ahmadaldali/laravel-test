@@ -19,7 +19,7 @@ use PDF;
 class OrderController extends Controller
 {
     use SaveJson;
-    use OrderProductData;
+    use orderProductData;
     use ListsResult;
 
     /**
@@ -75,8 +75,7 @@ class OrderController extends Controller
     public function getAll(ListRequest $request)
     {
         //first get all orders
-        $model = Order::all()->toQuery();
-        //Or $model = Order::query();
+        $model = Order::all();
         //fetch the results
         return $this->getTheResult($model, $request);
     } //getAll
@@ -89,9 +88,9 @@ class OrderController extends Controller
      */
     public function getAllShipment(ListRequest $request)
     {
-        //first get all shipped orders
+        //get the shipped orders
         $model = Order_Statuse::where('type', 'shipped')
-            ->first()->orders->toQuery();
+            ->first()->orders;
         //apply filters
         return $this->getTheResult($model, $request);
     } //getAllShipment
