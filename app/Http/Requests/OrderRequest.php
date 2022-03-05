@@ -24,8 +24,8 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_status_uuid' => 'required|string|exists:order__statuses,uuid',
-            'payment_uuid' => 'required|string|exists:payments,uuid',
+            'order_status_id' => 'required|string|exists:order__statuses,uuid',
+            'payment_id' => 'nullable|string|exists:payments,uuid',
             'products' => 'required|json',
             'address' => 'required|json',
         ];

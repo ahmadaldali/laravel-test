@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -58,6 +59,7 @@ class Order extends Model
         DB::beginTransaction();
         try {
             $order = new Order();
+            $order->uuid = Str::uuid()->toString();
             foreach ($data as $field => $value) {
                 $order->$field = $value;
             }

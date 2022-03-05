@@ -21,10 +21,9 @@ class UserController extends Controller
     use ListsResult;
 
     /**
-     * @todo: login using the email and the pass
-     *
      * @param LoginUserRequest $request
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: login using the email and the pass
      */
     public function login(LoginUserRequest $request)
     {
@@ -34,15 +33,17 @@ class UserController extends Controller
         $response = User::login($validatedData, false);
         //check if the token isn't "", so everything is ok.
         return ($response[1] == 200)
-            ? response(['message' => 'You have been successfully logged in', 'access_token' => $response[0]], $response[1])
+            ? response(
+                ['message' => 'You have been successfully logged in', 'access_token' => $response[0]],
+                $response[1]
+            )
             : response(['message' => $response[0]], $response[1]); //error -> 422 or 500
     } //login
 
     /**
+     * @param UserRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @todo: create a new user
-     *
-     * @param CreateUserRequest $request
-     * @return void
      */
     public function create(UserRequest $request)
     {
@@ -59,9 +60,8 @@ class UserController extends Controller
     } //create
 
     /**
-     * return the logged user
-     *
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: return the logged in user
      */
     public function user()
     {
@@ -75,9 +75,8 @@ class UserController extends Controller
     } //user
 
     /**
-     * delete the logged user
-     *
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: delete the logged in user
      */
     public function delete()
     {
@@ -93,10 +92,9 @@ class UserController extends Controller
     } //user
 
     /**
+     * @param UserRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @todo: update the user
-     *
-     * @param CreateUserRequest $request
-     * @return void
      */
     public function edit(UserRequest $request)
     {
@@ -111,10 +109,9 @@ class UserController extends Controller
     } //edit
 
     /**
-     * @todo: request a token to reset its password
-     *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: request a token to reset its password
      */
     public function forgotPassword(Request $request)
     {
@@ -136,7 +133,10 @@ class UserController extends Controller
                 'email' => $request->email,
             ])->first();
         if ($record) {
-            return response(['success' => false, 'token' => 'You have requested a token before, Please wait until tomorrow'], 200);
+            return response(
+                ['success' => false, 'token' => 'You have requested a token before, Please wait until tomorrow'],
+                200
+            );
         }
         //generate a random token
         $token = Str::random(64);
@@ -150,6 +150,8 @@ class UserController extends Controller
     } //forget-password
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @todo: try to update user's password based on the token and his email.
      */
     public function resetPasswordToken(Request $request)
@@ -183,8 +185,8 @@ class UserController extends Controller
 
 
     /**
-     *
-     * @return void
+     * @param ListRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function orders(ListRequest $request)
     {

@@ -4,10 +4,11 @@ namespace App\Traits;
 
 trait SaveJson
 {
+
     /**
-     * @todo: to handle all process json attributes
-     *
      * @param $data
+     * @return mixed
+     * @todo: to handle all process json attributes
      */
     public function convertJsonToObject($data)
     {

@@ -17,28 +17,30 @@ class AdminController extends Controller
     use ListsResult;
 
     /**
-     * @todo: login using the email and the pass
-     *
      * @param LoginUserRequest $request
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: login using the email and the pass
      */
     public function login(LoginUserRequest $request)
     {
         // get validated form data
         $validatedData = $request->validated();
-        //try to login
+        //try to log in
         $response = User::login($validatedData);
         //check if the token isn't "", so everything is ok.
         return ($response[1] == 200)
-            ? response(['message' => 'You have been successfully logged in', 'access_token' => $response[0]], $response[1])
+            ? response(
+                ['message' => 'You have been successfully logged in', 'access_token' => $response[0]],
+                $response[1]
+            )
             : response(['message' => $response[0]], $response[1]); //error -> 422 or 500
     } //login
 
+
     /**
+     * @param UserRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @todo: create a new admin
-     *
-     * @param CreateUserRequest $request
-     * @return void
      */
     public function create(UserRequest $request)
     {
@@ -56,6 +58,8 @@ class AdminController extends Controller
 
 
     /**
+     * @param $uuid
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @todo: admin delete a user
      */
     public function deleteUser($uuid)
@@ -64,9 +68,11 @@ class AdminController extends Controller
             //get that user
             $user = User::find($uuid);
             //admin can remove only the users
-            if (!$user || $user->is_admin) return response([], 404);
+            if (!$user || $user->is_admin) {
+                return response([], 404);
+            }
             //in my opinion, I think we shouldn't delete a user if he is logged in
-            //so we should add something to the DB to explain that,
+            //So, we should add something to the DB to explain that,
             //e.g: status column, or last log out at, from that we can check
             $user->delete();
             return response(['message' => 'Deleted Successfully'], 200);
@@ -77,9 +83,9 @@ class AdminController extends Controller
     } //delete user
 
     /**
-     * @todo: get all users
-     *
      * @param ListRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: get all users / normal users
      */
     public function getAllNonAdmin(ListRequest $request)
     {

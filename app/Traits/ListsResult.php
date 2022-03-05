@@ -8,11 +8,11 @@ use App\Http\Controllers\Template\Filter\FilterListTemplateWithWhereBetween;
 trait ListsResult
 {
     /**
-     * filter the results of the request
-     *
      * @param $model
      * @param $request
      * @param $addedParams
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo : filter the results of the request
      */
     public function getTheResult($model, $request, $addedParams = [])
     {

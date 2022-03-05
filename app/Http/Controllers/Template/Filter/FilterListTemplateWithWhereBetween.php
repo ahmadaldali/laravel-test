@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers\Template\Filter;
 
-use App\Traits\fixRange;
+use App\Traits\FixRange;
 use App\Traits\SaveJson;
 
 /**
@@ -11,13 +11,13 @@ use App\Traits\SaveJson;
  */
 class FilterListTemplateWithWhereBetween extends FilterListTemplateAbstract
 {
-    use fixRange;
+    use FixRange;
     use SaveJson;
 
     /**
-     * @todo: where between condition
-     *
+     * @param $request
      * @return void
+     * @todo: where between condition
      */
     protected function applyWhereBetween($request): void
     {
@@ -28,7 +28,6 @@ class FilterListTemplateWithWhereBetween extends FilterListTemplateAbstract
             //apply where range condition
             $this->builder = $this->builder->whereBetween($dataRange->from, $dataRange->to);
         } //data range
-
         //check from fix range if exist
         if ($request->has('fixRange')) {
             //get from and to attributes
@@ -36,7 +35,6 @@ class FilterListTemplateWithWhereBetween extends FilterListTemplateAbstract
             //apply where range condition
             $this->builder = $this->builder->whereBetween($fixRange['from'], $fixRange['to']);
         } //fix range
-
     } //applyWhereBetween
 
 }//class

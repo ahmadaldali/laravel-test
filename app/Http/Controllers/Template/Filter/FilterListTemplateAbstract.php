@@ -11,9 +11,14 @@ use App\Http\Controllers\Filter\FilterBuilder;
 abstract class FilterListTemplateAbstract
 {
     protected $builder = null;
+
     /**
-     * The template method defines the skeleton of an algorithm.
-     * here the steps of the filtering
+     * @param $model
+     * @param $params
+     * @param $request
+     * @return void
+     * @todo: The template method defines the skeleton of an algorithm.
+     * @todo: here the steps of the filtering
      */
     final public function filter($model, $params, $request)
     {
@@ -29,9 +34,11 @@ abstract class FilterListTemplateAbstract
         return $this->applyPagination();
     } //filter
 
-
     /**
-     * These operations already have implementations.
+     * @param $model
+     * @param $params
+     * @return void
+     * @todo: These operations already have implementations.
      */
     protected function init($model, $params): void
     {
@@ -39,8 +46,6 @@ abstract class FilterListTemplateAbstract
     }
 
     /**
-     * where
-     *
      * @return void
      */
     protected function applyWhere(): void
@@ -50,8 +55,6 @@ abstract class FilterListTemplateAbstract
     }
 
     /**
-     * sort
-     *
      * @return void
      */
     protected function applySort(): void
@@ -61,9 +64,7 @@ abstract class FilterListTemplateAbstract
     }
 
     /**
-     * paginate
-     *
-     * @return void
+     * @return mixed
      */
     protected function applyPagination()
     {
@@ -72,13 +73,14 @@ abstract class FilterListTemplateAbstract
     }
 
     /**
-     * These operations need implementations.
-     *
+     * @param $request
      * @return void
+     * @todo: These operations need implementations.
      */
     protected function applyWhereBetween($request): void
     {
         //not where between for this collection
         //$this->builder = $this->builder;
     }
+
 }//class

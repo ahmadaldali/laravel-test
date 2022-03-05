@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Log;
 trait OrderProductData
 {
     /**
-     * calculate the details based on the products
-     * total amount, sub total, delivery fee, and the products details
-     *
      * @param $items
+     * @return array
+     * @todo: calculate the details based on the products
+     * @todo: total amount, sub total, delivery fee, and the products details
      */
     public static function getDetails($items)
     {
@@ -60,13 +60,12 @@ trait OrderProductData
         } //catch
     } //calculate amount
 
-
     /**
-     * @todo: calculate if there is a delivery_fee or not
-     *
      * @param $amount
+     * @return int
+     * @todo: calculate if there is a delivery_fee or not
      */
-    private static function getDeliveryFee($amount)
+    private static function getDeliveryFee($amount):int
     {
         //0 not null, cuz I set the default value is a double (0.0) not as null
         return ($amount < 500) ? ceil(15 * $amount / 100) : 0;

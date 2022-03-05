@@ -18,7 +18,7 @@ class PromotionSeeder extends Seeder
             'uuid' => '9967f302-8bf6-11ec-91c4-4e8ee0b7fpro',
             'title' => 'Promotion1',
             'content' => 'Promotion random content',
-            'metadata' =>  [
+            'metadata' => [
                 "valid_from" => "20-12-2020",
                 'valid_to' => "20-12-2023",
                 "image" => ""

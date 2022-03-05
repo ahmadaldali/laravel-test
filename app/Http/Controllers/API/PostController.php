@@ -13,9 +13,9 @@ class PostController extends Controller
     use ListsResult;
 
     /**
-     * @todo: get a specific post using its uuid
-     *
      * @param $uuid
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: get a specific post using its uuid
      */
     public function getPost($uuid)
     {
@@ -33,11 +33,10 @@ class PostController extends Controller
         } //catch
     } //function
 
-
     /**
-     * @todo: get all posts
-     *
      * @param ListRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: get all posts
      */
     public function getAll(ListRequest $request)
     {

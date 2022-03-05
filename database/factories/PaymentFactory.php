@@ -20,7 +20,7 @@ class PaymentFactory extends Factory
         return [
             'uuid' => Str::uuid()->toString(),
             'type' => $this->faker->randomElement(['credit_card', 'cash_on_delivery', 'bank_transfer']),
-            'details' =>  [
+            'details' => [
                 "holder_name" => $this->faker->name(25),
                 "number" => $this->faker->phoneNumber(),
                 "ccv" => $this->faker->randomNumber(8),

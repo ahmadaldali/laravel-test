@@ -23,9 +23,9 @@ class OrderController extends Controller
     use ListsResult;
 
     /**
-     * @todo: try to create an order record
-     *
      * @param OrderRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: try to create an order record
      */
     public function create(OrderRequest $request)
     {
@@ -37,40 +37,48 @@ class OrderController extends Controller
             //decode the json data
             $validatedData['products'] = $this->convertJsonToObject($validatedData['products']);
             $validatedData['address'] = $this->convertJsonToObject($validatedData['address']);
-
             //get the details of the order's products,
             //in the same time, validation for products
             //cuz, if we will pass each product,
             //so we can discover if there is a wrong product or not
             $order = $this->getDetails($validatedData['products']);
             //count = 0 mean, there is a fake product
-            if (count($order) == 0) return response([], 422);
+            if (count($order) == 0) {
+                return response([], 422);
+            }
             //set the  delivery fee
             $validatedData['delivery_fee'] = $order['delivery_fee'];
             //calculate the sub total amount
             $validatedData['amount'] = $order['sub_total'];
-            //add order_statuse_uuid to the data insted of order_status_uuid,
+            //add order_statuse_uuid to the data instead of order_status_uuid,
             //cuz, the column in my DB is order_statuse_uuid
-            //of course, I can rechange the migration, or create a new migration to alter the name
+            //of course, I can re-change the migration, or create a new migration to alter the name
             //but here I provide another solution
-            $validatedData['order_statuse_uuid'] = $validatedData['order_status_uuid'];
-            unset($validatedData['order_status_uuid']);
+            $validatedData['order_statuse_uuid'] = $validatedData['order_status_id'];
+            //the same thing for payment id, if exist
+            $validatedData['payment_uuid'] = array_key_exists(
+                'payment_id',
+                $validatedData
+            ) ? $validatedData['payment_id'] : null;
+            unset($validatedData['order_status_id']);
+            unset($validatedData['payment_id']);
             //save the order in the DB
             $order = Order::saveOrder($validatedData);
             //check no error during the save
-            if ($order == null) throw new Exception('error');
+            if ($order == null) {
+                throw new Exception('error');
+            }
             return response(['message' => 'Order created successfully'], 200);
         } catch (Exception $e) {
-            Log::info('error in create/order controller' . $e->getMessage());
+            Log::info('error in create/order controller: ' . $e->getMessage());
             return response([], 500);
         } //catch
     } //create
 
-
     /**
-     * @todo: get all orders
-     *
      * @param ListRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: get all orders
      */
     public function getAll(ListRequest $request)
     {
@@ -80,11 +88,10 @@ class OrderController extends Controller
         return $this->getTheResult($model, $request);
     } //getAll
 
-
     /**
-     * @todo: get all shipped orders
-     *
      * @param ListRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @todo: get all shipped orders
      */
     public function getAllShipment(ListRequest $request)
     {
@@ -96,6 +103,8 @@ class OrderController extends Controller
     } //getAllShipment
 
     /**
+     * @param $uuid
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @todo: download the order invoice as pdf file
      */
     public function downloadInvoice($uuid)
@@ -116,7 +125,9 @@ class OrderController extends Controller
                 'order_type' => $order_type,
             ];
             //count = 0 mean, there is a fake product
-            if (count($details) == 0) return response([], 422);
+            if (count($details) == 0) {
+                return response([], 422);
+            }
             $pdf = PDF::loadView('Order.invoice', ['data' => $data]);
             //name of the pdf is uuid
             return $pdf->download($uuid . '.pdf');

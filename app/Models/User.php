@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Str;
 
 
 class User extends Authenticatable
@@ -121,6 +122,7 @@ class User extends Authenticatable
             //create a new user
             //$user = User::create($data);
             $user = new User();
+            $user->uuid = Str::uuid()->toString();
             //add the columns
             foreach ($data as $field => $value) {
                 $user->$field = $value;

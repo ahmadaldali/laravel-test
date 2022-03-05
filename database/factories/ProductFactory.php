@@ -21,11 +21,11 @@ class ProductFactory extends Factory
     {
         return [
             'uuid' => Str::uuid()->toString(),
-            'category_uuid' =>  Category::factory()->create()->uuid,
+            'category_uuid' => Category::factory()->create()->uuid,
             'title' => $this->faker->text(25),
             'price' => $this->faker->randomNumber(2),
             'description' => $this->faker->text(),
-            'metadata' =>  [
+            'metadata' => [
                 "brand" => function () {
                     return Brand::factory()->create()->uuid;
                 },

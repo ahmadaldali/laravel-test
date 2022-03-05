@@ -15,8 +15,8 @@ class FilterBuilder implements FilterInterface
     private $list;
 
     /**
-     * A fresh builder instance should contain a blank product object, which is
-     * used in further assembly.
+     * @param $model
+     * @param $list
      */
     public function __construct($model, $list)
     {
@@ -25,7 +25,7 @@ class FilterBuilder implements FilterInterface
     }
 
     /**
-     *
+     * @return FilterInterface
      */
     public function where(): FilterInterface
     {
@@ -45,7 +45,10 @@ class FilterBuilder implements FilterInterface
     }
 
     /**
-     *
+     * @param $begin
+     * @param $end
+     * @param $column
+     * @return FilterInterface
      */
     public function whereBetween($begin, $end, $column = 'created_at'): FilterInterface
     {
@@ -54,22 +57,17 @@ class FilterBuilder implements FilterInterface
     }
 
     /**
-     *
-     *
      * @return FilterInterface
      */
     public function sort(): FilterInterface
     {
         $sortType = (array_key_exists('desc', $this->list) && $this->list['desc'] == 1) ? 'desc' : 'asc';
-        if (array_key_exists('sortBy', $this->list))
-            $this->model =  $this->model->orderBy($this->list['sortBy'], $sortType);
-
+        if (array_key_exists('sortBy', $this->list)) {
+            $this->model = $this->model->orderBy($this->list['sortBy'], $sortType);
+        }
         return $this;
     }
 
-    /**
-     *
-     */
     public function paginate()
     {
         try {
@@ -79,7 +77,7 @@ class FilterBuilder implements FilterInterface
             return $this->model->paginate($limit);
         } catch (Exception $e) {
             //something error, for example, one of the params is not a column
-            Log::info('error in filter builder: ' .  $e->getMessage());
+            Log::info('error in filter builder: ' . $e->getMessage());
             return null;
         } //catch
     } //paginate

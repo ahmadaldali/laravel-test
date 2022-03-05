@@ -15,11 +15,10 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('uuid')->primary();
             $table->uuid('user_uuid')->nullable();
             $table->uuid('payment_uuid')->nullable();
             $table->uuid('order_statuse_uuid')->nullable();
-            $table->uuid('uuid')->default(DB::raw('(UUID())'))->unique();;
             $table->double('delivery_fee', 8, 2)->default(0.0);
             $table->double('amount', 12, 2)->unique;
             $table->json('products');

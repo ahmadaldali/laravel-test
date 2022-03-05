@@ -40,11 +40,11 @@ class OrderFactory extends Factory
         //calculate the amount
         $order = $this->getDetails($products);
         $amount = $order['sub_total'];
-
         return [
+            'uuid' => Str::uuid()->toString(),
             'user_uuid' => User::factory()->create()->uuid,
             'payment_uuid' => $payment_uuid,
-            'order_statuse_uuid' => Order_Statuse::where('id', $random_status_id)->first()->uuid,
+            'order_statuse_uuid' => Order_Statuse::all()->skip($random_status_id - 1)->take(1)->first()->uuid,
             'products' => $products,
             'address' => [
                 "billing" => Str::random(15),

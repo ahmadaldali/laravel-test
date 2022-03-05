@@ -28,7 +28,9 @@ Route::get('/401', function () {
 Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], function () {
     Route::prefix('v1')->group(function () {
         //admin can delete a user
-        Route::delete('user-delete/{uuid}', [AdminController::class, 'deleteUser'])->name('user-delete')->middleware(['auth:api', 'admin']);
+        Route::delete('user-delete/{uuid}', [AdminController::class, 'deleteUser'])->name('user-delete')->middleware(
+            ['auth:api', 'admin']
+        );
         //admin
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('create', [AdminController::class, 'create'])->name('create');
@@ -45,7 +47,9 @@ Route::group(['middleware' => ['cors', 'json.response', 'throttle:60,1']], funct
             Route::post('login', [UserController::class, 'login'])->name('login');
             Route::get('logout', [HelperAPIController::class, 'logout'])->name('logout');
             Route::post('forgot-password', [UserController::class, 'forgotPassword'])->name('forgot-password');
-            Route::post('reset-password-token', [UserController::class, 'resetPasswordToken'])->name('reset-password-token');
+            Route::post('reset-password-token', [UserController::class, 'resetPasswordToken'])->name(
+                'reset-password-token'
+            );
             //middleware auth
             Route::group(['middleware' => ['auth:api', 'user']], function () {
                 Route::get('/', [UserController::class, 'user'])->name('user');

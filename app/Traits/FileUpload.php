@@ -10,12 +10,17 @@ use Illuminate\Support\Str;
 trait FileUpload
 {
     /**
-     * @todo: save the uploaded file in the server and get information about the file
-     *
      * @param $file
+     * @return array
+     * @todo: save the uploaded file in the server and get information about the file
      */
     public function fileUpload($file)
     {
+        #note: I developed this function after the test and make it more dynamic,
+        #you can find the package in my github:
+        # https://github.com/ahmadaldali/FilesHelper
+        # https://packagist.org/packages/ahmadaldali/helper-files
+        
         try {
             //generate a random name
             $file_name = Str::random(10);
